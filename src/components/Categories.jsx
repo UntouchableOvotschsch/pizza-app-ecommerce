@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
 
-const CategoryItem = ({ title, index, itemIndex, setIndex }) => {
+const CategoryItem = ({ title, activeIndex, itemIndex, setIndex }) => {
     return (
         <li
-            className={itemIndex === index ? "active" : ''}
+            className={itemIndex === activeIndex ? "active" : ''}
             onClick={() => setIndex(itemIndex)}
         >{title}</li>
     )
@@ -13,7 +13,7 @@ const CategoryItem = ({ title, index, itemIndex, setIndex }) => {
 
 
 const Categories = ({titles}) => {
-    const [index, setIndex] = useState(0)
+    const [activeIndex, setIndex] = useState(0)
 
     return (
         <div className="categories">
@@ -22,10 +22,10 @@ const Categories = ({titles}) => {
                     titles.map(el => (
                         <CategoryItem
                             title={el}
-                            index={index}
+                            activeIndex={activeIndex}
                             setIndex={setIndex}
                             itemIndex={titles.indexOf(el)}
-                            key={index * Math.PI}
+                            key={titles.indexOf(el)}
                         />
                     ))
                 }
