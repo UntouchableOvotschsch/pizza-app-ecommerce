@@ -2,12 +2,13 @@ import React from "react";
 import './scss/app.scss'
 
 
+
 import Header from "./components/Header";
 import Categories from "./components/Categories";
 import SortPopUp from "./components/SortPopUp";
 import PizzaBlock from "./components/PizzaBlock";
 
-
+import pizzas from './assets/pizzas/pizzas.json'
 
 const App = () => {
   return (
@@ -16,13 +17,21 @@ const App = () => {
       <div className="content">
         <div className="container">
           <div className="content__top">
-            <Categories />
+            <Categories titles={["Все", "Мясные", "Вегетарианская", "Гриль", "Острые", "Закрытые"]} />
             <SortPopUp />
           </div>
           <h2 className="content__title">Все пиццы</h2>
           <div className="content__items">
-            <PizzaBlock />
-            <PizzaBlock />
+
+            {
+              pizzas.map((pizza,  index) => (
+                <PizzaBlock
+                  pizzaInfo={pizza}
+                  key={index}
+                />
+              ))
+            }
+
 
           </div>
         </div>
