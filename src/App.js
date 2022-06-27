@@ -24,10 +24,10 @@ const App = () => {
           <div className="content__items">
 
             {
-              pizzas.map((pizza,  index) => (
+              pizzas.map(pizza => (
                 <PizzaBlock
                   pizzaInfo={pizza}
-                  key={index}
+                  key={pizza.id}
                 />
               ))
             }
