@@ -1,0 +1,17 @@
+.root {
+    text-align: center;
+    padding: 100px;
+    margin: 0 auto;
+    max-width: 750px;
+    * {
+        margin-bottom: 10px;
+    }
+    span {
+        font-size: 65px;
+    }
+    p {
+        font-size: 30px;
+        font-weight: 500;
+    }
+}
+

@@ -26,7 +26,7 @@ const SortPopUp = () => {
                     />
                 </svg>
                 <b>Сортировка по:</b>
-                <span onClick={() => mode ? setMode(false) : setMode(true)}>{titles[activeIndex]}</span>
+                <span onClick={() => setMode(!mode)}>{titles[activeIndex]}</span>
             </div>
 
             {
@@ -37,7 +37,7 @@ const SortPopUp = () => {
                             titles.map((el, index) => (
                                 <li
                                     className={activeIndex===index ? "active" : ""}
-                                    onClick={()=>setIndex(index)}
+                                    onClick={()=>(setIndex(index), setMode(!mode))}
                                     key={index}
                                 >{el}</li>
                             ))
