@@ -14,6 +14,10 @@ body {
   margin: 50px auto;
   border-radius: 10px;
   max-width: 1400px;
+  min-width: 375px;
+  @media (max-width: 650px) {
+    margin: 0px auto;
+  }
 }
 
 .content {
@@ -22,6 +26,11 @@ body {
   &__title {
     margin: 35px 0;
   }
+
+  @media (max-width: 650px) {
+    padding-top: 10px;
+  }
+  
 
   &__items {
     display: grid;
