@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 
 
-const SortPopUp = () => {
+const SortPopUp = ({titles}) => {
 
-    const titles = ["популярности", "цене", "алфавиту"]
 
     const [mode, setMode] = useState(false)
     const [activeIndex, setIndex] = useState(0)
+
+    const onClickSetter = (mode, index) => {
+        setIndex(index)
+        setMode(!mode)
+    }
     
 
 
@@ -36,8 +40,8 @@ const SortPopUp = () => {
                         {
                             titles.map((el, index) => (
                                 <li
-                                    className={activeIndex===index ? "active" : ""}
-                                    onClick={()=>(setIndex(index), setMode(!mode))}
+                                    className={activeIndex===index && "active"}
+                                    onClick={()=>onClickSetter(mode, index)}
                                     key={index}
                                 >{el}</li>
                             ))

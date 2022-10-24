@@ -11,6 +11,7 @@ const Home = () => {
 
     const [pizzas, setPizzas] = useState([])
     const [loading, setLoading] = useState(true)
+
   
     useEffect(() => {
       fetch('https://62b982ad41bf319d227e5acb.mockapi.io/items')
@@ -19,14 +20,15 @@ const Home = () => {
           setPizzas(json);
           setLoading(false)
         })
+        window.scrollTo(0, 0)
     }, [])
 
 
     return (
         <>
             <div className="content__top">
-                <Categories titles={["Все", "Мясные", "Вегетарианская", "Гриль", "Острые", "Закрытые"]} />
-                <SortPopUp />
+                <Categories titles={["Все", "Мясные", "Вегетарианская", "Гриль", "Острые", "Закрытые"]}/>
+                <SortPopUp titles = {["популярности", "цене", "алфавиту"]}/>
             </div>
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
