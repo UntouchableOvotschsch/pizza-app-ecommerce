@@ -8,6 +8,15 @@
 
     svg {
       margin-right: 8px;
+      transition: transform .3s;
+      &.active {
+        transform: rotate(180deg);
+        transition: transform .3s;
+      }
+      &:hover {
+        transform: rotate(90deg);
+        transition: transform .6s;
+      }
     }
 
     b {
