@@ -1,4 +1,9 @@
 .root {
+    display: flex;
+    justify-content: center;
+
+
+
     li {
         display: inline-block;
 
@@ -23,6 +28,7 @@
                 .nextArrow {
                     fill: #fff;
                 }
+
                 .previousArrow {
                     fill: #fff;
                 }
@@ -41,7 +47,13 @@
         }
     }
 
+
+
+
+
 }
+
+
 
 .nextArrow {
     margin-top: 8px;
@@ -53,7 +65,7 @@
 }
 
 .previousArrow {
-    margin-top: 8px; 
+    margin-top: 8px;
     margin-right: 4px;
     width: 25px;
     height: 25px;
