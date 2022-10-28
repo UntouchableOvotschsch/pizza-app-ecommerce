@@ -1,0 +1,61 @@
+.root {
+    li {
+        display: inline-block;
+
+        a {
+            display: inline-block;
+            text-align: center;
+            width: 45px;
+            height: 45px;
+            line-height: 42px;
+            border: 1px solid #fe5f1e;
+            border-radius: 30px;
+            margin-right: 10px;
+            cursor: pointer;
+            color: #fe5f1e;
+            font-weight: 800;
+
+
+            &:hover {
+                background-color: #fe5f1e;
+                color: #fff;
+
+                .nextArrow {
+                    fill: #fff;
+                }
+                .previousArrow {
+                    fill: #fff;
+                }
+            }
+
+        }
+    }
+
+    :global {
+        .selected {
+            a {
+                background-color: #fe5f1e;
+                color: #fff;
+            }
+
+        }
+    }
+
+}
+
+.nextArrow {
+    margin-top: 8px;
+    margin-left: 4px;
+    width: 25px;
+    height: 25px;
+    fill: #fe5f1e;
+    transform: rotate(180deg);
+}
+
+.previousArrow {
+    margin-top: 8px; 
+    margin-right: 4px;
+    width: 25px;
+    height: 25px;
+    fill: #fe5f1e;
+}
