@@ -1,16 +1,31 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+
+import {addPizza} from "../redux/slices/cartSlice";
 
 
 const PizzaBlock = ({ pizzaInfo }) => {
-
-    const [count, setCount] = useState(0)
+    const { id, imageUrl, title, types, sizes, price } = pizzaInfo
+    const typeNames = ["тонкое", "традиционное"]
     const [currentSize, setSize] = useState(0)
     const [currentType, setType] = useState(0)
 
-    const { imageUrl, title, types, sizes, price } = pizzaInfo
-    const typeNames = ["тонкое", "традиционное"]
+    const dispatch = useDispatch()
+    const addedPizzas = useSelector(state => state.cartSlice.pizzas.find(el => el.pizzaId === id && el.type === typeNames[currentType] && el.size === sizes[currentSize]))
+    const addedCount = addedPizzas ? addedPizzas.count : 0
 
 
+    const onClickAddPizza = () => {
+        const pizza = {
+            pizzaId: id,
+            imageUrl,
+            title,
+            price,
+            type: typeNames[currentType],
+            size: sizes[currentSize],
+        }
+        dispatch(addPizza(pizza))
+    }
 
     return (
         <div className="pizza-block-wrapper">
@@ -44,10 +59,10 @@ const PizzaBlock = ({ pizzaInfo }) => {
                     </ul>
                 </div>
                 <div className="pizza-block__bottom">
-                    <div className="pizza-block__price">от {count === 0 ? price : price * count} ₽</div>
+                    <div className="pizza-block__price">от {price} ₽</div>
                     <button
                         className="button button--outline button--add"
-                        onClick={() => { setCount(count + 1) }}>
+                        onClick={() => { onClickAddPizza()}}>
                         <svg
                             width="12"
                             height="12"
@@ -61,7 +76,7 @@ const PizzaBlock = ({ pizzaInfo }) => {
                             />
                         </svg>
                         <span>Добавить</span>
-                        <i>{count}</i>
+                        {addedCount > 0 && <i>{addedCount}</i>}
                     </button>
                 </div>
             </div>

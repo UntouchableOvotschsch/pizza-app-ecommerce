@@ -1,8 +1,13 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
+
 import styles from './Pagination.module.scss'
 import ReactPaginate from 'react-paginate';
 
-const PaginationBlock = ({ setCurrentPage }) => {
+import { setCurrentPage } from '../../redux/slices/pageParamsSlice'
+
+const PaginationBlock = ({ currentPage, pageCount }) => {
+    const dispatch = useDispatch()
 
     return (
         <ReactPaginate
@@ -24,9 +29,10 @@ const PaginationBlock = ({ setCurrentPage }) => {
                     xmlns="http://www.w3.org/2000/svg">
                     <polygon points="352,115.4 331.3,96 160,256 331.3,416 352,396.7 201.5,256 " />
                 </svg>}
-            onPageChange={(event) => setCurrentPage(event.selected)}
+            forcePage={currentPage}
+            onPageChange={(event) => dispatch(setCurrentPage(event.selected))}
             pageRangeDisplayed={4}
-            pageCount={3}
+            pageCount={pageCount}
             renderOnZeroPageCount={null}
         />
     )

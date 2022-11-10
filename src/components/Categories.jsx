@@ -1,7 +1,11 @@
 import React from "react";
+import { useDispatch } from 'react-redux'
 
+import { setCategoryID } from '../redux/slices/pageParamsSlice'
 
-const Categories = ({ titles, catergoryID, setCategoryID}) => {
+const Categories = ({ titles, categoryID }) => {
+
+    const dispatch = useDispatch()
 
     return (
         <div className="categories">
@@ -9,8 +13,8 @@ const Categories = ({ titles, catergoryID, setCategoryID}) => {
                 {
                     titles.map((el, index) => (
                         <li
-                            className={index === catergoryID ? "active" : ''}
-                            onClick={() => setCategoryID(index)}
+                            className={index === categoryID ? "active" : ''}
+                            onClick={() => dispatch(setCategoryID(index))}
                             key={index}
                         >{el}</li>
                     ))

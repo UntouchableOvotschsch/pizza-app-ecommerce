@@ -1,4 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux'
+import axios from "axios";
+import { useSearchParams } from "react-router-dom";
+
+import { setNavigationParams } from "../redux/slices/pageParamsSlice"
 
 import Categories from "../components/Categories";
 import SortPopUp from "../components/SortPopUp";
@@ -7,54 +12,87 @@ import PizzaBlockSkeleton from "../components/Skeletons/PizzaBlockSkeleton";
 import PaginationBlock from "../components/PaginationBlock";
 
 
-const Home = ({ searchValue }) => {
 
+const Home = () => {
     const [pizzas, setPizzas] = useState([])
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
 
-    const [catergoryID, setCategoryID] = useState(0)
 
-    const [sortPopUpMode, setSortPopUpMode] = useState(false)
-    const [sortPopUpIndex, setSortPopUpIndex] = useState(0)
-    const [ascDesc, setAscDesc] = useState('asc')
+    let [searchParams, setSearchParams] = useSearchParams();
+    const dispatch = useDispatch()
 
-    const [currentPage, setCurrentPage] = useState(0)
+    const {
+        categoryID,
+        sortPopUpMode,
+        sortPopUpIndex,
+        ascDesc,
+        categoryTitles,
+        sortTitles,
+        currentPage,
+        pageCount,
+        searchValue } = useSelector((state) => state.pageParamsSlice)
+
+    useEffect(() => {
+        dispatch(setNavigationParams({
+            categoryID: searchParams.get('categoryID') || categoryID,
+            sortPopUpIndex: searchParams.get('sortPopUpIndex') || sortPopUpIndex,
+            ascDesc: searchParams.get('ascDesc') || ascDesc,
+            currentPage: searchParams.get('currentPage') || currentPage
+        }))
+    }, [])
+
 
     useEffect(() => {
         setLoading(true)
+
         const sortTitles = ["rating", "price", "title"]
-        const category = catergoryID !== 0 ? `&category=${catergoryID}` : "";
+        const category = categoryID !== 0 ? `&category=${categoryID}` : "";
         const sortBy = sortTitles[sortPopUpIndex]
         const search = searchValue !== "" ? `&search=${searchValue.toLocaleLowerCase()}` : ""
-        fetch(`https://62b982ad41bf319d227e5acb.mockapi.io/items?page=${currentPage + 1}&limit=4${category}&sortBy=${sortBy}&order=${ascDesc}${search}`)
-            .then(res => { return res.json() })
-            .then(json => {
-                setPizzas(json);
-                setLoading(false)
-            })
 
+        setSearchParams({
+            categoryID,
+            sortPopUpIndex,
+            ascDesc,
+            currentPage
+        })
+
+        const fetchData = async () => {
+            return await axios.get(`https://62b982ad41bf319d227e5acb.mockapi.io/items?page=${+currentPage + 1}&limit=4${category}&sortBy=${sortBy}&order=${ascDesc}${search}`)
+        }
+
+
+        try {
+            fetchData()
+                .then(res => {
+                    if (res.status === 200) {
+                        return (setPizzas(res.data), setLoading(false))
+
+                    }
+                    return (alert('Что то пошло не так'), setLoading(false))
+                })
+
+        } catch (error) {
+            console.log(error)
+        }
 
         window.scrollTo(0, 0)
-    }, [catergoryID, sortPopUpIndex, ascDesc, searchValue, currentPage])
-
+    }, [categoryID, sortPopUpIndex, ascDesc, searchValue, currentPage, setSearchParams])
 
 
     return (
         <div className="container">
             <div className="content__top">
                 <Categories
-                    titles={["Все", "Мясные", "Вегетарианская", "Гриль", "Острые", "Закрытые"]}
-                    catergoryID={catergoryID}
-                    setCategoryID={setCategoryID} />
+                    titles={categoryTitles}
+                    categoryID={categoryID}
+                />
 
                 <SortPopUp
-                    titles={["популярности", "цене", "алфавиту"]}
+                    titles={sortTitles}
                     sortPopUpMode={sortPopUpMode}
-                    setSortPopUpMode={setSortPopUpMode}
                     sortPopUpIndex={sortPopUpIndex}
-                    setSortPopUpIndex={setSortPopUpIndex}
                     ascDesc={ascDesc}
-                    setAscDesc={setAscDesc}
                 />
             </div>
             <h2 className="content__title">Все пиццы</h2>
@@ -74,7 +112,7 @@ const Home = ({ searchValue }) => {
                 }
 
             </div>
-            <PaginationBlock setCurrentPage={setCurrentPage} />
+            <PaginationBlock currentPage={currentPage} pageCount={pageCount} />
         </div>
     )
 }
