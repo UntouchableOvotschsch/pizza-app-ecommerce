@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from 'react-redux'
-import axios from "axios";
-import { useSearchParams } from "react-router-dom";
+import React, {useState, useEffect} from "react";
+import {useSelector, useDispatch} from 'react-redux'
+import {useSearchParams} from "react-router-dom";
 
-import { setNavigationParams } from "../redux/slices/pageParamsSlice"
+import {setNavigationParams} from "../redux/slices/pageParamsSlice"
+import {fetchAllPizzas} from "../redux/slices/pizzaSlice";
 
 import Categories from "../components/Categories";
 import SortPopUp from "../components/SortPopUp";
@@ -12,14 +12,13 @@ import PizzaBlockSkeleton from "../components/Skeletons/PizzaBlockSkeleton";
 import PaginationBlock from "../components/PaginationBlock";
 
 
-
 const Home = () => {
-    const [pizzas, setPizzas] = useState([])
     const [loading, setLoading] = useState(false)
 
 
     let [searchParams, setSearchParams] = useSearchParams();
     const dispatch = useDispatch()
+
 
     const {
         categoryID,
@@ -30,7 +29,10 @@ const Home = () => {
         sortTitles,
         currentPage,
         pageCount,
-        searchValue } = useSelector((state) => state.pageParamsSlice)
+        searchValue
+    } = useSelector((state) => state.pageParamsSlice)
+
+    const {pizzas} = useSelector(state => state.pizzaSlice)
 
     useEffect(() => {
         dispatch(setNavigationParams({
@@ -39,45 +41,39 @@ const Home = () => {
             ascDesc: searchParams.get('ascDesc') || ascDesc,
             currentPage: searchParams.get('currentPage') || currentPage
         }))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
 
     useEffect(() => {
         setLoading(true)
 
+
         const sortTitles = ["rating", "price", "title"]
         const category = categoryID !== 0 ? `&category=${categoryID}` : "";
         const sortBy = sortTitles[sortPopUpIndex]
         const search = searchValue !== "" ? `&search=${searchValue.toLocaleLowerCase()}` : ""
 
-        setSearchParams({
-            categoryID,
-            sortPopUpIndex,
-            ascDesc,
-            currentPage
-        })
 
-        const fetchData = async () => {
-            return await axios.get(`https://62b982ad41bf319d227e5acb.mockapi.io/items?page=${+currentPage + 1}&limit=4${category}&sortBy=${sortBy}&order=${ascDesc}${search}`)
+        if (categoryID !== 0 || sortPopUpIndex !== 0 || currentPage !== 0 || ascDesc !== 'asc') {
+            setSearchParams({
+                categoryID,
+                sortPopUpIndex,
+                currentPage,
+                ascDesc
+            })
+        } else {
+            setSearchParams('')
         }
 
 
-        try {
-            fetchData()
-                .then(res => {
-                    if (res.status === 200) {
-                        return (setPizzas(res.data), setLoading(false))
-
-                    }
-                    return (alert('Что то пошло не так'), setLoading(false))
-                })
-
-        } catch (error) {
-            console.log(error)
-        }
-
+        dispatch(fetchAllPizzas({currentPage, category, sortBy, ascDesc, search}))
+            .finally(() => {
+                setLoading(false)
+            })
         window.scrollTo(0, 0)
-    }, [categoryID, sortPopUpIndex, ascDesc, searchValue, currentPage, setSearchParams])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [categoryID, sortPopUpIndex, searchValue, ascDesc, currentPage])
 
 
     return (
@@ -101,7 +97,7 @@ const Home = () => {
 
                 {
                     loading ?
-                        [...new Array(8)].map((_, index) => <PizzaBlockSkeleton key={index} />)
+                        [...new Array(8)].map((_, index) => <PizzaBlockSkeleton key={index}/>)
                         :
                         pizzas.map(pizza => (
                             <PizzaBlock
@@ -112,7 +108,7 @@ const Home = () => {
                 }
 
             </div>
-            <PaginationBlock currentPage={currentPage} pageCount={pageCount} />
+            <PaginationBlock currentPage={currentPage} pageCount={pageCount}/>
         </div>
     )
 }

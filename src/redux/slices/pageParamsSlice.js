@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import {createSlice} from '@reduxjs/toolkit'
 
 const initialState = {
     searchValue: '',
@@ -9,7 +9,7 @@ const initialState = {
     categoryID: 0,
     sortPopUpMode: false,
     sortPopUpIndex: 0,
-    ascDesc: 'asc'
+    ascDesc: 'asc',
 }
 
 export const pageParamsSlice = createSlice({
@@ -43,6 +43,14 @@ export const pageParamsSlice = createSlice({
     },
 })
 
-export const { setCategoryID, setSortPopUpMode, setSortPopUpIndex, setAscDesc, setCurrentPage, setSearchValue, setNavigationParams } = pageParamsSlice.actions
+export const {
+    setCategoryID,
+    setSortPopUpMode,
+    setSortPopUpIndex,
+    setAscDesc,
+    setCurrentPage,
+    setSearchValue,
+    setNavigationParams
+} = pageParamsSlice.actions
 
 export default pageParamsSlice.reducer
