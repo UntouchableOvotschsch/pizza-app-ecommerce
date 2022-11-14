@@ -5,6 +5,7 @@ const instance = axios.create({
 });
 
 
-export const apiUrl = (currentPage, category, sortBy, ascDesc, search) => {
+export const apiUrl = (params) => {
+  const {currentPage, category, sortBy, ascDesc, search} = params
   return instance.get(`/items?page=${+currentPage + 1}&limit=4${category}&sortBy=${sortBy}&order=${ascDesc}${search}`)
 }

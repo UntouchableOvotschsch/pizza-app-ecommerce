@@ -4,9 +4,13 @@ import {apiUrl} from "../../api/api";
 
 export const fetchAllPizzas = createAsyncThunk(
   "pizza/fetchAllPizzas",
-  async ({currentPage, category, sortBy, ascDesc, search}) => {
-    const res = await apiUrl(currentPage, category, sortBy, ascDesc, search)
-    return res.data
+  async (params, thunkAPI) => {
+    try {
+      const res = await apiUrl(params)
+      return thunkAPI.fulfillWithValue(res.data)
+      } catch (e) {
+      return thunkAPI.rejectWithValue("Что то пошло не так: " + e.message)
+    }
   }
 )
 
@@ -22,6 +26,9 @@ export const pizzaSlice = createSlice({
     [fetchAllPizzas.fulfilled]: (state, action) => {
       state.pizzas = action.payload
     },
+    [fetchAllPizzas.rejected]: (state, action) => {
+      alert(action.payload)
+    }
   }
 })
 

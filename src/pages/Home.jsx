@@ -8,13 +8,13 @@ import SortPopUp from "../components/SortPopUp";
 import PizzaBlock from "../components/PizzaBlock";
 import PizzaBlockSkeleton from "../components/Skeletons/PizzaBlockSkeleton";
 import PaginationBlock from "../components/PaginationBlock";
+import {NotFound} from "./NotFound";
 
 
 const Home = () => {
   const [loading, setLoading] = useState(false)
 
-
-  let [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch()
 
   const {
@@ -38,13 +38,13 @@ const Home = () => {
       ascDesc: searchParams.get("ascDesc") || ascDesc,
       currentPage: searchParams.get("currentPage") || currentPage
     }))
+    window.scrollTo(0, 0)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
 
   useEffect(() => {
     setLoading(true)
-
 
     const sortTitles = ["rating", "price", "title"]
     const category = categoryID !== 0 ? `&category=${categoryID}` : "";
@@ -63,16 +63,17 @@ const Home = () => {
       setSearchParams("")
     }
 
-
     dispatch(fetchAllPizzas({currentPage, category, sortBy, ascDesc, search}))
-      .finally(() => {
+      .finally (() => {
         setLoading(false)
       })
-    window.scrollTo(0, 0)
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryID, sortPopUpIndex, searchValue, ascDesc, currentPage])
 
-
+  if(!pizzas.length) {
+    return (<NotFound/>)
+  }
   return (
     <div className="container">
       <div className="content__top">

@@ -2,7 +2,7 @@ import React from "react";
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 
-import {removePizza, emptyCart, increaseItem, decreaseItem} from "../redux/slices/cartSlice";
+import {removePizza, emptyCart, increaseItem, decreaseItem, CartSliceSelector} from "../redux/slices/cartSlice";
 
 import CartItemBlock from "../components/CartItemBlock";
 import EmptyCard from "./EmptyCard";
@@ -11,7 +11,7 @@ import EmptyCard from "./EmptyCard";
 const Cart = () => {
 
   const dispatch = useDispatch()
-  const {pizzas, totalPrice} = useSelector(state => state.cartSlice)
+  const {pizzas, totalPrice} = useSelector(CartSliceSelector)
 
 
   if (!totalPrice) {
