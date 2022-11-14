@@ -17,7 +17,6 @@ const Categories = ({ titles, categoryID }) => {
                 key={index}
                 onClick={() => dispatch(setCategoryID(index))}> {el}
               </li>
-
           ))
         }
       </ul>

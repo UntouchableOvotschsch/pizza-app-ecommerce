@@ -40,21 +40,21 @@ const PizzaBlock = ({ pizzaInfo }) => {
           <ul>
             {
               types.map((type, index) => (
-                <div onClick={() => setType(index)} onKeyPress={() => setType(index)} key={index} role="button" tabIndex={0}>
-                  <li
-                    className={currentSize === index ? "active" : ""}
-                  >{typeNames[type]}</li>
-                </div>
+                <li
+                  className={currentType === index ? "active" : ""}
+                  onClick={() => setType(index)}
+                  key={index}
+                >{typeNames[type]}</li>
               ))
             }
           </ul>
           <ul>
             {sizes.map((size, index) => (
-                <li
-                  className={currentSize === index ? "active" : ""}
-                  onClick={() => setSize(index)}
-                  key={index}
-                >{size} см.</li>
+              <li
+                className={currentSize === index ? "active" : ""}
+                onClick={() => setSize(index)}
+                key={index}
+              >{size} см.</li>
             ))}
           </ul>
         </div>
