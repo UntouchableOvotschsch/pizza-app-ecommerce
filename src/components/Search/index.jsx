@@ -1,16 +1,16 @@
-import React from 'react'
-import { useDispatch } from 'react-redux'
-import debounce from 'lodash.debounce'
+import React from "react"
+import { useDispatch } from "react-redux"
+import debounce from "lodash.debounce"
 
-import { setSearchValue } from '../../redux/slices/pageParamsSlice'
-import styles from './Search.module.scss'
+import { setSearchValue } from "../../redux/slices/pageParamsSlice"
+import styles from "./Search.module.scss"
 
 
 const Search = () => {
 
   const dispatch = useDispatch()
 
-  const [value, setValue] = React.useState('')
+  const [value, setValue] = React.useState("")
 
   const searchDebounce = React.useMemo(
     () =>
@@ -30,8 +30,8 @@ const Search = () => {
 
   const inputRef = React.useRef()
   const clearSearchInput = () => {
-    setValue('');
-    dispatch(setSearchValue(''));
+    setValue("");
+    dispatch(setSearchValue(""));
     inputRef.current.focus();
   }
 
@@ -52,7 +52,7 @@ const Search = () => {
         onChange={onChangeInput}
       />
 
-      {value !== '' &&
+      {value !== "" &&
         <svg
           className={styles.closeIcon}
           onClick={() => clearSearchInput()}

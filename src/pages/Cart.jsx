@@ -56,7 +56,14 @@ const Cart = () => {
                 strokeLinejoin="round"></path>
             </svg>
 
-            <span onClick={() => dispatch(emptyCart())}>Очистить корзину</span>
+            <span
+              onClick={() => dispatch(emptyCart())}
+              onKeyPress={() => dispatch(emptyCart())}
+              role="button"
+              tabIndex={0}
+            >
+              Очистить корзину
+            </span>
           </div>
         </div>
         <div className="content__items">

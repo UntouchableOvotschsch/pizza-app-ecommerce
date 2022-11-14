@@ -4,8 +4,7 @@
     "react-app/jest",
     "eslint:recommended",
     "plugin:import/errors",
-    "plugin:react/recommended",
-    "plugin:jsx-a11y/recommended"
+    "plugin:react/recommended"
   ],
   "plugins": [
     "react",
@@ -14,10 +13,7 @@
   ],
   "rules": {
     "react/prop-types": 0,
-    "indent": [
-      "error",
-      2
-    ],
+    "indent": "off",
     "linebreak-style": [
       "error",
       "windows"
