@@ -8,7 +8,7 @@ export const fetchAllPizzas = createAsyncThunk(
     try {
       const res = await apiUrl(params)
       return thunkAPI.fulfillWithValue(res.data)
-      } catch (e) {
+    } catch (e) {
       return thunkAPI.rejectWithValue("Что то пошло не так: " + e.message)
     }
   }
@@ -31,5 +31,7 @@ export const pizzaSlice = createSlice({
     }
   }
 })
+
+export const GetPizzasSelector = state => state.pizzaSlice
 
 export default pizzaSlice.reducer

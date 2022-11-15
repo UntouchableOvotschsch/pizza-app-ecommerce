@@ -51,6 +51,7 @@ export const cartSlice = createSlice({
 })
 
 export const CartSliceSelector = (state) => state.cartSlice
+export const AddedPizzasSelector = (id, sizes, currentSize, currentType, typeNames) => state => state.cartSlice.pizzas.find(el => el.pizzaId === id && el.type === typeNames[currentType] && el.size === sizes[currentSize])
 
 export const {addPizza, removePizza, emptyCart, increaseItem, decreaseItem} = cartSlice.actions
 

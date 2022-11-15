@@ -7,7 +7,7 @@ import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import NotFound from "./components/NotFoundBlock";
 
-const App = () => {
+const App: React.FC = () => {
   return (
     <div className="wrapper">
       <Header/>

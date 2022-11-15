@@ -43,6 +43,8 @@ export const pageParamsSlice = createSlice({
   },
 })
 
+export const GetPageParamsSelector = (state) => state.pageParamsSlice
+
 export const {
   setCategoryID,
   setSortPopUpMode,
