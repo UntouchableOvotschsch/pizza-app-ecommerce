@@ -11,6 +11,7 @@ type SortPopUpProps = {
     ascDesc: string,
 }
 
+
 const SortPopUp: React.FC<SortPopUpProps> = (props) => {
     const {titles, sortPopUpMode, sortPopUpIndex, ascDesc} = props
 
@@ -24,8 +25,8 @@ const SortPopUp: React.FC<SortPopUpProps> = (props) => {
 
 
     useEffect(() => {
-        const handleClickOutside = (e: any) => {
-            if (!(e.composedPath().includes(sortRef.current))) {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (sortRef.current && !e.composedPath().includes(sortRef.current)) {
                 dispatch(setSortPopUpMode(false))
             }
         }

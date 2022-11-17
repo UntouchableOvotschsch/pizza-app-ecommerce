@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {useSearchParams} from "react-router-dom";
-import {GetPageParamsSelector, setNavigationParams} from "../redux/slices/pageParamsSlice";
+import {GetPageParamsSelector, PageParamsSlice, setNavigationParams} from "../redux/slices/pageParamsSlice";
 import {fetchAllPizzas, GetPizzasSelector} from "../redux/slices/pizzaSlice";
 import Categories from "../components/Categories";
 import SortPopUp from "../components/SortPopUp";
@@ -9,13 +9,14 @@ import PizzaBlock from "../components/PizzaBlock";
 import PizzaBlockSkeleton from "../components/Skeletons/PizzaBlockSkeleton";
 import PaginationBlock from "../components/PaginationBlock";
 import {NotFound} from "./NotFound";
+import {useAppDispatch} from "../redux/redux-store";
 
 
 const Home: React.FC = () => {
     const [loading, setLoading] = useState(false)
+    const dispatch = useAppDispatch()
 
     const [searchParams, setSearchParams] = useSearchParams();
-    const dispatch = useDispatch()
 
     const {
         categoryID,
@@ -32,12 +33,15 @@ const Home: React.FC = () => {
     const {pizzas} = useSelector(GetPizzasSelector)
 
     useEffect(() => {
-        dispatch(setNavigationParams({
-            categoryID: searchParams.get("categoryID") || categoryID,
-            sortPopUpIndex: searchParams.get("sortPopUpIndex") || sortPopUpIndex,
-            ascDesc: searchParams.get("ascDesc") || ascDesc,
-            currentPage: searchParams.get("currentPage") || currentPage
-        }))
+
+        const searchParameters = {
+            categoryID: searchParams.get("categoryID") ?? Number(searchParams.get("categoryID")) !== categoryID ? searchParams.get("categoryID") : categoryID,
+            sortPopUpIndex: searchParams.get("sortPopUpIndex") ?? Number(searchParams.get("sortPopUpIndex")) !== sortPopUpIndex ? searchParams.get("sortPopUpIndex") : sortPopUpIndex,
+            ascDesc: searchParams.get("ascDesc") ?? searchParams.get("ascDesc") !== ascDesc ? searchParams.get("ascDesc") : ascDesc,
+            currentPage: searchParams.get("currentPage") ?? Number(searchParams.get("currentPage")) !== currentPage ? searchParams.get("currentPage") : currentPage
+        }
+
+        dispatch(setNavigationParams(searchParameters as PageParamsSlice))
         window.scrollTo(0, 0)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -49,16 +53,17 @@ const Home: React.FC = () => {
         const sortTitles = ["rating", "price", "title"]
         const category = categoryID !== 0 ? `&category=${categoryID}` : "";
         const sortBy = sortTitles[sortPopUpIndex]
-        const search = searchValue !== "" ? `&search=${searchValue.toLocaleLowerCase()}` : ""
+        const search = searchValue === "" || searchValue === undefined ? "" : `&search=${searchValue.toLocaleLowerCase()}`
 
 
         if (categoryID !== 0 || sortPopUpIndex !== 0 || currentPage !== 0 || ascDesc !== "asc") {
-            setSearchParams({
-                categoryID,
-                sortPopUpIndex,
-                currentPage,
-                ascDesc
-            })
+            const params = {
+                categoryID: categoryID.toString(),
+                sortPopUpIndex: sortPopUpIndex.toString(),
+                currentPage: currentPage.toString(),
+                ascDesc: ascDesc
+            }
+            setSearchParams(params)
         } else {
             setSearchParams("")
         }

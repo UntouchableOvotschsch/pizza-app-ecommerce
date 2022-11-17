@@ -46,6 +46,15 @@
           ".ts",
           ".tsx"
         ]
+      },
+      "typescript": {
+        "alwaysTryTypes": true
+      },
+      "import/parsers": {
+        "@typescript-eslint/parser": [
+          ".ts",
+          ".tsx"
+        ]
       }
     }
   }

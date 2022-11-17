@@ -9,16 +9,17 @@ type CartItemBlockProps = {
     type: string,
     size: number,
     count: number,
-    removePizza: any,
-    increaseItem: any,
-    decreaseItem: any
+    removePizza: (id: number) => void,
+    increaseItem: (id: number) => void,
+    decreaseItem: (id: number) => void
 }
 
 const CartItemBlock: React.FC<CartItemBlockProps> = (props) => {
 
     const {id, imageUrl, title, price, type, size, count, removePizza, increaseItem, decreaseItem} = props
 
-    const dispatch = useDispatch()
+
+    const dispatch = useDispatch<any>()
 
     return (
         <div className="cart__item">

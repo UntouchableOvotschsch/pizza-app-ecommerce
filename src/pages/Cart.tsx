@@ -58,9 +58,6 @@ const Cart: React.FC = () => {
 
                         <span
                             onClick={() => dispatch(emptyCart())}
-                            onKeyPress={() => dispatch(emptyCart())}
-                            role="button"
-                            tabIndex={0}
                         >
               Очистить корзину
             </span>
