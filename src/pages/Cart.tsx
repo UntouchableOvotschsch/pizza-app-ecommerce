@@ -2,10 +2,11 @@ import React from "react";
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 
-import {CartSliceSelector, decreaseItem, emptyCart, increaseItem, removePizza} from "../redux/slices/cartSlice";
+import {CartSliceSelector, emptyCart} from "../redux/slices/cartSlice";
+import {PizzaType} from "../redux/slices/slicesTypes";
 
 import CartItemBlock from "../components/CartItemBlock";
-import EmptyCard from "./EmptyCard";
+import EmptyCart from "./EmptyCart";
 
 
 const Cart: React.FC = () => {
@@ -15,7 +16,7 @@ const Cart: React.FC = () => {
 
 
     if (!totalPrice) {
-        return <EmptyCard/>
+        return <EmptyCart/>
     }
     return (
         <div className="container container--cart">
@@ -66,7 +67,7 @@ const Cart: React.FC = () => {
                 <div className="content__items">
 
                     {
-                        pizzas.map((el: any) => (
+                        pizzas.map((el: PizzaType) => (
                             <CartItemBlock
                                 id={el.id}
                                 imageUrl={el.imageUrl}
@@ -75,10 +76,7 @@ const Cart: React.FC = () => {
                                 type={el.type}
                                 size={el.size}
                                 count={el.count}
-                                removePizza={removePizza}
-                                increaseItem={increaseItem}
-                                decreaseItem={decreaseItem}
-                                key={el.pizzaId}
+                                key={el.id}
                             />
                         ))
                     }

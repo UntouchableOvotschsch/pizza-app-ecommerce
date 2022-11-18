@@ -1,7 +1,8 @@
 import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 
-import {AddedPizzasSelector, addPizza, PizzaType} from "../redux/slices/cartSlice";
+import {AddedPizzasSelector, addPizza} from "../redux/slices/cartSlice";
+import {PizzaType} from "../redux/slices/slicesTypes";
 
 
 type PizzaBlockProps = {

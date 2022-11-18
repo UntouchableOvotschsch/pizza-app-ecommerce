@@ -1,15 +1,17 @@
 import React, {useEffect, useState} from "react";
-import {useSelector} from "react-redux";
 import {useSearchParams} from "react-router-dom";
-import {GetPageParamsSelector, PageParamsSlice, setNavigationParams} from "../redux/slices/pageParamsSlice";
+
+import {useSelector} from "react-redux";
+import {useAppDispatch} from "../redux/redux-store";
+import {GetPageParamsSelector, setNavigationParams} from "../redux/slices/pageParamsSlice";
 import {fetchAllPizzas, GetPizzasSelector} from "../redux/slices/pizzaSlice";
+import {AscDesc, PageParamsSlice, PizzasTypes} from "../redux/slices/slicesTypes";
+
 import Categories from "../components/Categories";
 import SortPopUp from "../components/SortPopUp";
 import PizzaBlock from "../components/PizzaBlock";
 import PizzaBlockSkeleton from "../components/Skeletons/PizzaBlockSkeleton";
 import PaginationBlock from "../components/PaginationBlock";
-import {NotFound} from "./NotFound";
-import {useAppDispatch} from "../redux/redux-store";
 
 
 const Home: React.FC = () => {
@@ -35,10 +37,10 @@ const Home: React.FC = () => {
     useEffect(() => {
 
         const searchParameters = {
-            categoryID: searchParams.get("categoryID") ?? Number(searchParams.get("categoryID")) !== categoryID ? searchParams.get("categoryID") : categoryID,
-            sortPopUpIndex: searchParams.get("sortPopUpIndex") ?? Number(searchParams.get("sortPopUpIndex")) !== sortPopUpIndex ? searchParams.get("sortPopUpIndex") : sortPopUpIndex,
-            ascDesc: searchParams.get("ascDesc") ?? searchParams.get("ascDesc") !== ascDesc ? searchParams.get("ascDesc") : ascDesc,
-            currentPage: searchParams.get("currentPage") ?? Number(searchParams.get("currentPage")) !== currentPage ? searchParams.get("currentPage") : currentPage
+            categoryID: searchParams.get("categoryID") ?? Number(searchParams.get("categoryID")) !== categoryID ? Number(searchParams.get("categoryID")) : categoryID,
+            sortPopUpIndex: searchParams.get("sortPopUpIndex") ?? Number(searchParams.get("sortPopUpIndex")) !== sortPopUpIndex ? Number(searchParams.get("sortPopUpIndex")) : sortPopUpIndex,
+            ascDesc: searchParams.get("ascDesc") ?? searchParams.get("ascDesc") !== ascDesc ? AscDesc.DESC : AscDesc.ASC,
+            currentPage: searchParams.get("currentPage") ?? Number(searchParams.get("currentPage")) !== currentPage ? Number(searchParams.get("currentPage")) : currentPage
         }
 
         dispatch(setNavigationParams(searchParameters as PageParamsSlice))
@@ -56,7 +58,7 @@ const Home: React.FC = () => {
         const search = searchValue === "" ? "" : `&search=${searchValue.toLocaleLowerCase()}`
 
 
-        if (categoryID !== 0 || sortPopUpIndex !== 0 || currentPage !== 0 || ascDesc !== "asc") {
+        if (categoryID !== 0 || sortPopUpIndex !== 0 || currentPage !== 0 || ascDesc !== AscDesc.DESC) {
             const params = {
                 categoryID: categoryID.toString(),
                 sortPopUpIndex: sortPopUpIndex.toString(),
@@ -71,13 +73,9 @@ const Home: React.FC = () => {
             .finally(() => {
                 setLoading(false)
             })
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [categoryID, sortPopUpIndex, searchValue, ascDesc, currentPage])
 
-    if (!loading && !pizzas.length) {
-        return (<NotFound/>)
-    }
     return (
         <div className="container">
             <div className="content__top">
@@ -101,7 +99,7 @@ const Home: React.FC = () => {
                     loading ?
                         [...new Array(8)].map((_, index) => <PizzaBlockSkeleton key={index}/>)
                         :
-                        pizzas.map((pizza: any) => (
+                        pizzas.map((pizza: PizzasTypes) => (
                             <PizzaBlock
                                 pizzaInfo={pizza}
                                 key={pizza.id}

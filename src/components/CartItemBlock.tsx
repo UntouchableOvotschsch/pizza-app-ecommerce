@@ -1,6 +1,9 @@
 import React from "react";
 import {useDispatch} from "react-redux";
 
+import {decreaseItem, increaseItem, removePizza} from "../redux/slices/cartSlice";
+
+
 type CartItemBlockProps = {
     id: number,
     imageUrl: string,
@@ -8,18 +11,15 @@ type CartItemBlockProps = {
     price: number,
     type: string,
     size: number,
-    count: number,
-    removePizza: (id: number) => void,
-    increaseItem: (id: number) => void,
-    decreaseItem: (id: number) => void
+    count: number
 }
 
 const CartItemBlock: React.FC<CartItemBlockProps> = (props) => {
 
-    const {id, imageUrl, title, price, type, size, count, removePizza, increaseItem, decreaseItem} = props
+    const {id, imageUrl, title, price, type, size, count} = props
 
 
-    const dispatch = useDispatch<any>()
+    const dispatch = useDispatch()
 
     return (
         <div className="cart__item">

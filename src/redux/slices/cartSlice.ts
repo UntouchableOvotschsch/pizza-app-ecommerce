@@ -1,27 +1,15 @@
 import type {PayloadAction} from "@reduxjs/toolkit"
 import {createSlice} from "@reduxjs/toolkit"
 import {RootState} from "../redux-store";
+import {getCartFromLS} from "../../utils/getCartFromLS";
+import {CartSliceState, PizzaType} from "./slicesTypes";
 
 
-export type PizzaType = {
-    pizzaId: number,
-    id: number,
-    imageUrl: string,
-    title: string,
-    type: string,
-    size: number,
-    price: number
-    count: number
-}
-
-interface CartSliceState {
-    pizzas: PizzaType[],
-    totalPrice: number
-}
+const {pizzas, totalPrice} = getCartFromLS()
 
 const initialState: CartSliceState = {
-    pizzas: [],
-    totalPrice: 0
+    pizzas: pizzas,
+    totalPrice: totalPrice
 }
 
 export const cartSlice = createSlice({
@@ -60,7 +48,7 @@ export const cartSlice = createSlice({
         removePizza: (state, action: PayloadAction<number>) => {
             const findPizza = state.pizzas.find(el => el.id === action.payload)
             if (findPizza) {
-                state.totalPrice -= findPizza.price
+                state.totalPrice -= findPizza.price * findPizza.count
                 state.pizzas = state.pizzas.filter(el => el.id !== action.payload)
             }
         },

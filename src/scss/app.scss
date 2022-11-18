@@ -16,7 +16,7 @@ body {
   max-width: 1400px;
   min-width: 375px;
   @media (max-width: 650px) {
-    margin: 0px auto;
+    margin: 0 auto;
   }
 }
 
@@ -32,7 +32,7 @@ body {
   @media (max-width: 650px) {
     padding-top: 10px;
   }
-  
+
 
   &__items {
     display: grid;
@@ -65,7 +65,7 @@ body {
       }
       .sort {
         &__popup {
-          left: 0px;
+          left: 0;
         }
       }
     }
@@ -75,7 +75,7 @@ body {
         overflow: scroll;
       }
     }
-  }  
+  }
 }
 
 .container {
@@ -151,7 +151,7 @@ body {
     }
   }
 
-  .content__items{
+  .content__items {
     display: block;
   }
 
@@ -292,7 +292,6 @@ body {
 
         span {
           color: darken($color: $gray-line, $amount: 20);
-          font-weight: 500;
           font-weight: 600;
         }
 
@@ -339,11 +338,6 @@ body {
       line-height: 145.4%;
       letter-spacing: 0.01em;
       color: #777777;
-    }
-
-    icon {
-      position: relative;
-      top: 2px;
     }
 
     img {

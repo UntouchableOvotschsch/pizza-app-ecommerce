@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {RootState} from "../redux-store";
 import {apiUrl, FetchParams} from "../../api/api";
+import {PizzasSliceState, PizzasTypes} from "./slicesTypes";
 
 
 export const fetchAllPizzas = createAsyncThunk(
@@ -15,18 +16,6 @@ export const fetchAllPizzas = createAsyncThunk(
     }
 )
 
-export type PizzasTypes = {
-    id: number,
-    imageUrl: string,
-    title: string,
-    types: number[],
-    sizes: number[],
-    price: number
-}
-
-interface PizzasSliceState {
-    pizzas: PizzasTypes[]
-}
 
 const initialState: PizzasSliceState = {
     pizzas: [],

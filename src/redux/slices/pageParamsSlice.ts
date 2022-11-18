@@ -1,26 +1,8 @@
 import type {PayloadAction} from "@reduxjs/toolkit"
 import {createSlice} from "@reduxjs/toolkit"
 import {RootState} from "../redux-store";
+import {AscDesc, PageParamsSlice} from "./slicesTypes";
 
-//
-// type AscDesc = "asc" | "desc"
-
-// export enum AscDesc {
-//     ASC = "asc",
-//     DESC = "desc"
-// }
-
-export interface PageParamsSlice {
-    searchValue: string,
-    categoryTitles: string[],
-    sortTitles: string[],
-    currentPage: number,
-    pageCount: number,
-    categoryID: number,
-    sortPopUpMode: boolean,
-    sortPopUpIndex: number,
-    ascDesc: string
-}
 
 const initialState: PageParamsSlice = {
     searchValue: "",
@@ -31,7 +13,7 @@ const initialState: PageParamsSlice = {
     categoryID: 0,
     sortPopUpMode: false,
     sortPopUpIndex: 0,
-    ascDesc: "asc",
+    ascDesc: AscDesc.DESC
 }
 
 export const pageParamsSlice = createSlice({
@@ -47,7 +29,7 @@ export const pageParamsSlice = createSlice({
         setSortPopUpIndex: (state, action: PayloadAction<number>) => {
             state.sortPopUpIndex = action.payload
         },
-        setAscDesc: (state, action: PayloadAction<string>) => {
+        setAscDesc: (state, action: PayloadAction<AscDesc>) => {
             state.ascDesc = action.payload
         },
         setCurrentPage: (state, action: PayloadAction<number>) => {
