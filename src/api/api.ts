@@ -6,9 +6,9 @@ const instance = axios.create({
 
 export type FetchParams = {
     currentPage: number,
-    category: number,
-    sortBy: number,
-    ascDesc: "asc" | "desc"
+    category: string,
+    sortBy: string,
+    ascDesc: string,
     search: string
 }
 

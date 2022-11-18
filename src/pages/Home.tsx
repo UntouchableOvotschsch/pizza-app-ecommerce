@@ -53,7 +53,7 @@ const Home: React.FC = () => {
         const sortTitles = ["rating", "price", "title"]
         const category = categoryID !== 0 ? `&category=${categoryID}` : "";
         const sortBy = sortTitles[sortPopUpIndex]
-        const search = searchValue === "" || searchValue === undefined ? "" : `&search=${searchValue.toLocaleLowerCase()}`
+        const search = searchValue === "" ? "" : `&search=${searchValue.toLocaleLowerCase()}`
 
 
         if (categoryID !== 0 || sortPopUpIndex !== 0 || currentPage !== 0 || ascDesc !== "asc") {
@@ -67,7 +67,6 @@ const Home: React.FC = () => {
         } else {
             setSearchParams("")
         }
-        // @ts-ignore
         dispatch(fetchAllPizzas({currentPage, category, sortBy, ascDesc, search}))
             .finally(() => {
                 setLoading(false)
